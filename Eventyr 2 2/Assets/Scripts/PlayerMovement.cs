@@ -46,6 +46,15 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.AddForce(transform.up * jumpForce);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Powerup")
+        {
+            //Debug.Log("Powerup");
+            collision.gameObject.GetComponent<Powerup>().Activate(gameObject);
+        }
+        else return;
+    }
 
     bool Grounded()
     {
