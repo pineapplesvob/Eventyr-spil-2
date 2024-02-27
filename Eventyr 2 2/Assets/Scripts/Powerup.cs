@@ -5,21 +5,37 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] GameObject powerup;
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] float resetTimer = 10;
+    float timer;
 
+    private void Start()
+    {
+        
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
+        //stopping the timer
+        if (timer <= -2) return;
+        //checking if timer is over
+        if(timer <= 0)
+        {
+            //reactivating objects
+            gameObject.GetComponent<BoxCollider>().GetComponent<BoxCollider>().enabled = true;
+            gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+        //timer
+        timer -= Time.deltaTime;
     }
     public void Activate(GameObject player)
     {
+        //Debugging who and what
         Debug.Log(gameObject.name + " activaed by " + player.name);
+        //Give Player powerup and childing it
         Instantiate(powerup,player.transform);
-        gameObject.SetActive(false);
+        //Deactivate object
+        gameObject.GetComponent<BoxCollider>().GetComponent<BoxCollider>().enabled = false; 
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //start timer
+        timer = resetTimer;
     }
 }
